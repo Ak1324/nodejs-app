@@ -1,0 +1,64 @@
+// Import required modules
+const express = require('express');
+const mongoose = require('mongoose');
+
+// Connect to MongoDB
+mongoose.connect('mongodb://<mongo:27017/personsDB>', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+const db = mongoose.connection;
+
+// Check MongoDB connection
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+});
+
+// Create mongoose schema
+const personSchema = new mongoose.Schema({
+  name: String,
+  email: String
+});
+
+// Create mongoose model
+const Person = mongoose.model('Person', personSchema);
+
+// Create express app
+const app = express();
+const port = 3000;
+
+// Set view engine and static folder
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
+
+// Body parser middleware
+app.use(express.urlencoded({ extended: true }));
+
+// Routes
+app.get('/', (req, res) => {
+  res.render('index');
+});
+
+app.post('/submit', (req, res) => {
+  const { name, email } = req.body;
+  
+  // Create new person document
+  const newPerson = new Person({ name, email });
+  
+  // Save person document to MongoDB
+  newPerson.save((err) => {
+    if (err) {
+      console.error(err);
+      res.send('Error occurred while saving to database');
+    } else {
+      console.log('Person saved successfully');
+      res.send('Details saved to database');
+    }
+  });
+});
+
+// Start server
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
