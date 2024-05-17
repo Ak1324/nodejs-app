@@ -1,11 +1,11 @@
-# nodejs-app
-Running nodejs application which asks a person's basic details like name and email then store them into a mongoDB database in backend
+# flask-app
+Running flask application which asks a person's basic details like name and email then store them into a mongoDB database in backend
 
 # Instructions to build docker images:
 
-Node-app:
+flask-app:
 
-> docker build nodeapp ./node-app/Dockerfile .
+> docker build flask ./flask/Dockerfile .
 
 MongoDB:
 
@@ -20,18 +20,18 @@ MongoDB:
 > cd mongodb
 > kubectl apply -f mongodb-deployment.yaml
 
- 1. Please add Mongo-DB kubernetes service endpoint in the "// Connect to MongoDB" section of app.json file for 
+NOTE: 1. Please add Mongo-DB kubernetes service endpoint in the "<your-mongodb-url>" section of app.json file for 
     application and DB connectivity. [you will get this after deploying mongoDB into kubernetes]
 
-Node-app:
+flask-app:
 
 > cd node-app
-> kubectl apply -f nodejs-deployment.yaml
+> kubectl apply -f flask-deployment.yaml
 
 # After deployment:
 
 1. Get the IP address of the node-application service and try to access that from the browser
 
-   > kubectl get svc -A | grep nodejs
+   > kubectl get svc -A | grep flask
 
 Copy the External-IP address from the above command output and then hit it in the browser, then give your name and email as input and it will store it in the Mongodb in the backend.
