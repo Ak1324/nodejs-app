@@ -13,6 +13,10 @@ MongoDB:
 
 Then push the created images into docker-hub or any repository and then mention the image names into the deployment file of each app.
 
+# Run the imagepull-secret.sh file after editing the file with your actual Dockerhub details where the above build images are stored
+
+>> sh imagepull-secret.sh
+
 # Instructions to deploy apps into kuberntes:
 
 MongoDB:
